@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.BeanCreationException;
 
 import java.util.Map;
 
@@ -39,9 +40,13 @@ public class OrderDaprConfiguration {
 
     @Bean
     public String secretDaprClient(final DaprClient daprClient) {
-        final Map<String, String> secret = daprClient.getSecret(this.secretStoreName, "mySecret").block();
-        log.info("Fetched Secret: {}", secret);
-        return secret.toString();
+        try {
+            final Map<String, String> secret = daprClient.getSecret(this.secretStoreName, "mySecret").block();
+            log.info("Fetched Secret: {}", secret);
+            return secret.toString();
+        } catch (Exception e) {
+            log.error("Failed to fetch secret from Dapr", e);
+            throw new BeanCreationException("Failed to instantiate secretDaprClient", e);
+        }
     }
-
 }
