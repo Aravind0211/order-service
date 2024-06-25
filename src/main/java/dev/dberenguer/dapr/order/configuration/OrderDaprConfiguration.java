@@ -30,14 +30,13 @@ public class OrderDaprConfiguration {
             log.info("Fetched Secret: {}", secret);
             return secret.toString();
         } catch (DaprException e) {
-            // Log the exception and attempt a retry or handle accordingly
-            log.error("Failed to fetch secret from Dapr", e);
-            // You can implement retry logic here if needed
+            // Log DaprException with specific details
+            log.error("DaprException occurred while fetching secret from Dapr. Message: {}", e.getMessage(), e);
             throw new RuntimeException("Failed to fetch secret from Dapr", e);
         } catch (Exception e) {
-            // Catch any other unexpected exceptions and handle them
-            log.error("Unexpected error fetching secret from Dapr", e);
-            throw new RuntimeException("Unexpected error fetching secret from Dapr", e);
+            // Log other exceptions
+            log.error("Exception occurred while fetching secret from Dapr", e);
+            throw new RuntimeException("Failed to fetch secret from Dapr", e);
         }
     }
 }
