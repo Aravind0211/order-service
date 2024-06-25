@@ -9,14 +9,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OrderDaprConfiguration {
 
-    @Value("${dapr.port:3500}") // Example: Dapr's default port is 3500
+    @Value("${dapr.port:3500}")
     private int daprPort;
 
     @Bean
     public String secretDaprClient() {
         try {
             DaprClient daprClient = new DaprClientBuilder().build();
-            String secret = daprClient.getSecret("my-secret-store", "my-secret-name").block(); // Example: Fetching a secret
+            String secret = daprClient.getSecret("my-secret-store", "my-secret-name").block(); // Replace with your secret store and secret name
             return secret;
         } catch (DaprException ex) {
             throw new RuntimeException("Failed to initialize secretDaprClient", ex);
