@@ -9,3 +9,9 @@ dberenguer:
         name: orders
     secret-store:
       name: secretstores-local
+
+logging:
+  level:
+    root: INFO
+    io.dapr: DEBUG
+    dev.dberenguer.dapr: DEBUG
