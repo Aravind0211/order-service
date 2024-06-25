@@ -41,10 +41,12 @@ public class OrderDaprConfiguration {
     @Bean
     public String secretDaprClient(final DaprClient daprClient) {
         try {
+            // Attempt to fetch the secret
             final Map<String, String> secret = daprClient.getSecret(this.secretStoreName, "mySecret").block();
             log.info("Fetched Secret: {}", secret);
             return secret.toString();
         } catch (Exception e) {
+            // Log the exception and throw a BeanCreationException
             log.error("Failed to fetch secret from Dapr", e);
             throw new BeanCreationException("Failed to instantiate secretDaprClient", e);
         }
